@@ -25,8 +25,8 @@ export const PAGE_TITLES: Record<string, T> = {
 
 export const ABOUT_PAGE = {
   kicker: { ro: "Din 2012, pe aceeași stradă", ru: "С 2012 года, на той же улице" },
-  title: { ro: "O clinică pornită din", ru: "Клиника, начатая из" },
-  titleEm: { ro: "o nemulțumire", ru: "недовольства" },
+  title: { ro: "O clinică pornită", ru: "Клиника, начатая" },
+  titleEm: { ro: "dintr-o nemulțumire", ru: "из недовольства" },
   lead: {
     ro: "Trei medici tineri care se săturaseră să lucreze în locuri unde pacientului i se spunea suma abia la casă. Am închiriat două cabinete pe Alexandru cel Bun și am pus o singură regulă: prețul se scrie înainte.",
     ru: "Три молодых врача, уставших работать там, где пациенту называют сумму только на кассе. Мы сняли два кабинета на Александру чел Бун и ввели единственное правило: цена пишется заранее.",
