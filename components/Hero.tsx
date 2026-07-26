@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { HERO, UI } from "@/lib/content";
 import { useLang } from "@/lib/i18n";
@@ -88,15 +89,15 @@ export default function Hero() {
           <div className={css.aside}>
             <p className="lede">{t(HERO.sub)}</p>
             <div className={css.acts}>
-              <a href="#contact" className="btn">
+              <Link href="/programare" className="btn">
                 {t(HERO.ctaMain)}
                 <span className="ic">
                   <Arrow size={12} />
                 </span>
-              </a>
-              <a href="#preturi" className="btn btn-ghost">
+              </Link>
+              <Link href="/preturi" className="btn btn-ghost">
                 {t(HERO.ctaAlt)}
-              </a>
+              </Link>
             </div>
             <span className={css.free}>
               <i>

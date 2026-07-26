@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { CLINIC, UI } from "@/lib/content";
 import { useLang } from "@/lib/i18n";
@@ -32,9 +33,9 @@ export default function StickyCall() {
         <Phone size={16} />
         {t(UI.call)}
       </a>
-      <a href="#contact" className="btn">
+      <Link href="/programare" className="btn">
         {t(UI.bookShort)}
-      </a>
+      </Link>
       <a href={CLINIC.whatsapp} target="_blank" rel="noopener" className={`btn ${css.wa}`} aria-label="WhatsApp">
         <Wa size={19} />
       </a>

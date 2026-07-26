@@ -21,13 +21,15 @@ export const CLINIC = {
   facebook: "https://facebook.com",
 };
 
-export const NAV: { id: string; label: T }[] = [
-  { id: "servicii", label: { ro: "Servicii", ru: "Услуги" } },
-  { id: "cum", label: { ro: "Cum decurge", ru: "Как проходит" } },
-  { id: "rezultate", label: { ro: "Rezultate", ru: "Результаты" } },
-  { id: "echipa", label: { ro: "Echipa", ru: "Команда" } },
-  { id: "preturi", label: { ro: "Prețuri", ru: "Цены" } },
-  { id: "contact", label: { ro: "Contact", ru: "Контакты" } },
+/** `mega` tells the header to open a panel instead of navigating straight away. */
+export const NAV: { href: string; label: T; mega?: "services" | "team" }[] = [
+  { href: "/servicii", label: { ro: "Servicii", ru: "Услуги" }, mega: "services" },
+  { href: "/echipa", label: { ro: "Echipa", ru: "Команда" }, mega: "team" },
+  { href: "/preturi", label: { ro: "Prețuri", ru: "Цены" } },
+  { href: "/rezultate", label: { ro: "Rezultate", ru: "Результаты" } },
+  { href: "/blog", label: { ro: "Blog", ru: "Блог" } },
+  { href: "/despre", label: { ro: "Despre noi", ru: "О нас" } },
+  { href: "/contact", label: { ro: "Contact", ru: "Контакты" } },
 ];
 
 export const UI = {
@@ -39,6 +41,15 @@ export const UI = {
   open: { ro: "Deschis acum", ru: "Сейчас открыто" },
   closed: { ro: "Închis acum", ru: "Сейчас закрыто" },
   scroll: { ro: "Derulează", ru: "Листайте" },
+  home: { ro: "Acasă", ru: "Главная" },
+  all: { ro: "Vezi toate", ru: "Смотреть все" },
+  back: { ro: "Înapoi", ru: "Назад" },
+  next: { ro: "Continuă", ru: "Далее" },
+  readMore: { ro: "Citește", ru: "Читать" },
+  minRead: { ro: "min de citit", ru: "мин чтения" },
+  loading: { ro: "Se încarcă…", ru: "Загрузка…" },
+  from: { ro: "de la", ru: "от" },
+  askDoctor: { ro: "Programează-te la acest medic", ru: "Записаться к этому врачу" },
 } satisfies Record<string, T>;
 
 export const HERO = {
@@ -266,30 +277,55 @@ export const BEFORE_AFTER = {
   drag: { ro: "trage", ru: "тяните" },
 } satisfies Record<string, T>;
 
-export const TEAM: { name: string; role: T; years: T; img: string }[] = [
+/** `services` holds service slugs — it drives both the doctor pages and which
+ *  doctors the booking wizard offers once a service is picked. */
+export const TEAM: {
+  slug: string;
+  name: string;
+  role: T;
+  years: T;
+  img: string;
+  services: string[];
+}[] = [
   {
+    slug: "andrei-cojocaru",
     name: "Dr. Andrei Cojocaru",
     role: { ro: "Medic-șef · Implantologie", ru: "Главный врач · Имплантология" },
     years: { ro: "14 ani de practică · 1 900 de implanturi", ru: "14 лет практики · 1 900 имплантов" },
     img: "/img/doc-1.jpg",
+    services: ["consultatie", "implanturi", "carii", "estetica", "urgente"],
   },
   {
+    slug: "ana-cebotari",
     name: "Dr. Ana Cebotari",
     role: { ro: "Ortodonție", ru: "Ортодонтия" },
     years: { ro: "9 ani · certificată Invisalign", ru: "9 лет · сертификат Invisalign" },
     img: "/img/doc-2.jpg",
+    services: ["consultatie", "ortodontie", "estetica"],
   },
   {
+    slug: "victor-grosu",
     name: "Dr. Victor Grosu",
     role: { ro: "Chirurgie orală", ru: "Челюстно-лицевая хирургия" },
     years: { ro: "11 ani · rezident Iași", ru: "11 лет · резидентура в Яссах" },
     img: "/img/doc-3.jpg",
+    services: ["consultatie", "implanturi", "urgente", "carii"],
   },
   {
+    slug: "elena-rusu",
     name: "Dr. Elena Rusu",
     role: { ro: "Stomatologie pediatrică", ru: "Детская стоматология" },
     years: { ro: "7 ani · peste 2 000 de copii", ru: "7 лет · более 2 000 детей" },
     img: "/img/doc-4.jpg",
+    services: ["consultatie", "copii", "carii", "igienizare"],
+  },
+  {
+    slug: "irina-bejan",
+    name: "Irina Bejan",
+    role: { ro: "Igienist principal · Parodontologie", ru: "Старший гигиенист · Пародонтология" },
+    years: { ro: "8 ani · peste 6 000 de igienizări", ru: "8 лет · более 6 000 чисток" },
+    img: "/img/doc-5.jpg",
+    services: ["igienizare", "consultatie", "estetica"],
   },
 ];
 

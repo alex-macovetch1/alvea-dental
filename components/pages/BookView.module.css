@@ -1,0 +1,37 @@
+.aside {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+}
+.tel {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  color: var(--accent);
+  transition: gap 0.4s var(--ease);
+}
+.tel:hover {
+  gap: 15px;
+}
+.demo {
+  margin: 0;
+  padding: 12px 15px;
+  border-left: 2px solid var(--accent);
+  border-radius: 0 12px 12px 0;
+  background: var(--accent-soft);
+  font-size: 0.83rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+  max-width: 46ch;
+}
+
+.body {
+  padding-block: clamp(24px, 3vw, 44px) clamp(60px, 8vw, 120px);
+}
+.wait {
+  padding: 40px 0;
+  color: var(--ink-3);
+}

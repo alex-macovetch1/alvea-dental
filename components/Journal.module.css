@@ -1,0 +1,92 @@
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: clamp(30px, 4vw, 54px);
+}
+.title {
+  margin: 14px 0 0;
+  font-size: clamp(2rem, 5vw, 4rem);
+}
+.all {
+  flex: none;
+}
+
+.grid {
+  display: grid;
+  gap: clamp(20px, 2.6vw, 38px);
+}
+
+.card {
+  display: block;
+}
+.frame {
+  position: relative;
+  display: block;
+  border-radius: clamp(14px, 1.6vw, 20px);
+  overflow: hidden;
+  aspect-ratio: 16 / 11;
+  background: var(--soft);
+}
+.frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s var(--ease);
+}
+.card:hover .frame img {
+  transform: scale(1.06);
+}
+.tag {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.93);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.meta {
+  display: block;
+  margin: 16px 0 7px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--ink-3);
+}
+.cardTitle {
+  margin: 0 0 9px;
+  font-size: clamp(1.08rem, 1.6vw, 1.32rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.22;
+  transition: color 0.3s;
+}
+.card:hover .cardTitle {
+  color: var(--accent);
+}
+.excerpt {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.58;
+  color: var(--ink-2);
+}
+.author {
+  display: block;
+  margin-top: 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+
+@media (min-width: 820px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

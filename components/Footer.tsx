@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { CLINIC, FOOTER, HOURS, NAV, SERVICES } from "@/lib/content";
 import { useLang } from "@/lib/i18n";
 import { Arrow } from "./Icons";
@@ -18,12 +19,12 @@ export default function Footer() {
           </h2>
           <div className={`${css.side} rv`} style={{ "--d": "90ms" } as React.CSSProperties}>
             <p>{t(FOOTER.cta)}</p>
-            <a href="#contact" className="btn">
+            <Link href="/programare" className="btn">
               {t({ ro: "Programează-te", ru: "Записаться" })}
               <span className="ic">
                 <Arrow size={12} />
               </span>
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -31,18 +32,19 @@ export default function Footer() {
           <div className={css.col}>
             <h4>{t({ ro: "Clinica", ru: "Клиника" })}</h4>
             {NAV.map((n) => (
-              <a key={n.id} href={`#${n.id}`}>
+              <Link key={n.href} href={n.href}>
                 {t(n.label)}
-              </a>
+              </Link>
             ))}
+            <Link href="/programare">{t({ ro: "Programare online", ru: "Онлайн-запись" })}</Link>
           </div>
 
           <div className={css.col}>
             <h4>{t({ ro: "Servicii", ru: "Услуги" })}</h4>
-            {SERVICES.slice(0, 5).map((s) => (
-              <a key={s.slug} href="#servicii">
+            {SERVICES.map((s) => (
+              <Link key={s.slug} href={`/servicii/${s.slug}`}>
                 {t(s.title)}
-              </a>
+              </Link>
             ))}
           </div>
 

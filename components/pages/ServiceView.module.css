@@ -1,0 +1,451 @@
+.headActs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ---------- cover ---------- */
+.cover {
+  padding-bottom: clamp(30px, 4vw, 56px);
+}
+.coverImg {
+  border-radius: clamp(16px, 2vw, 26px);
+  overflow: hidden;
+  aspect-ratio: 21 / 9;
+  background: var(--soft);
+}
+.coverImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  margin-top: clamp(20px, 2.6vw, 34px);
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.fact {
+  background: var(--paper);
+  padding: clamp(16px, 2vw, 24px);
+}
+.factLabel {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.factValue {
+  display: block;
+  margin-top: 6px;
+  font-size: clamp(1.05rem, 1.9vw, 1.5rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+
+/* ---------- reading column ---------- */
+.main {
+  padding-block: clamp(46px, 6vw, 96px);
+}
+.split {
+  display: grid;
+  gap: clamp(34px, 4vw, 70px);
+  align-items: start;
+}
+.article {
+  max-width: 68ch;
+}
+.block + .block,
+.includes {
+  margin-top: clamp(34px, 4vw, 58px);
+}
+.h2 {
+  margin: 0 0 14px;
+  font-size: clamp(1.4rem, 2.6vw, 2.05rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+.article p {
+  margin: 0 0 15px;
+  font-size: 1.02rem;
+  line-height: 1.72;
+  color: var(--ink-2);
+}
+.shot {
+  margin-top: 24px;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background: var(--soft);
+}
+.shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.checks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 11px;
+}
+.checks li {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  font-size: 0.97rem;
+  color: var(--ink-2);
+}
+.checks i {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 2px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-2);
+}
+
+/* ---------- sticky side ---------- */
+.aside {
+  display: grid;
+  gap: 16px;
+}
+.card {
+  padding: clamp(20px, 2.2vw, 28px);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--paper);
+}
+.cardLabel {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.cardPrice {
+  display: block;
+  margin-top: 6px;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+.cardTime {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 10px;
+  font-size: 0.86rem;
+  color: var(--ink-3);
+}
+.cardBtn {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+.cardNote {
+  margin: 14px 0 0;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--ink-3);
+}
+
+.docList {
+  display: grid;
+  gap: 4px;
+  margin-top: 12px;
+}
+.docRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px;
+  border-radius: 14px;
+  transition: background 0.35s var(--ease);
+}
+.docRow:hover {
+  background: var(--soft);
+}
+.docRow svg {
+  margin-left: auto;
+  color: var(--ink-3);
+  flex: none;
+}
+.docImg {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--soft);
+}
+.docImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.docRow b {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.docRow i {
+  display: block;
+  font-style: normal;
+  font-size: 0.76rem;
+  color: var(--ink-3);
+}
+
+/* ---------- flow ---------- */
+.flow {
+  background: var(--sand);
+  padding-block: clamp(52px, 7vw, 110px);
+}
+.flowTitle {
+  margin: 0 0 clamp(26px, 3.4vw, 48px);
+  font-size: clamp(1.8rem, 4.2vw, 3.2rem);
+}
+.flowList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1px;
+  background: var(--sand-deep);
+  border-radius: 18px;
+  overflow: hidden;
+}
+.flowItem {
+  background: var(--sand);
+  padding: clamp(20px, 2.4vw, 30px);
+}
+.flowNum {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--accent-2);
+}
+.flowItem h3 {
+  margin: 10px 0 8px;
+  font-size: clamp(1.02rem, 1.5vw, 1.2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.flowItem p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+/* ---------- prices ---------- */
+.prices {
+  padding-block: clamp(52px, 7vw, 110px);
+}
+.pricesIn {
+  display: grid;
+  gap: clamp(24px, 3vw, 56px);
+  align-items: start;
+}
+.priceTitle {
+  margin: 14px 0 0;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+}
+.priceTable {
+  display: grid;
+}
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.98rem;
+}
+.priceRow:first-child {
+  border-top: 1px solid var(--line);
+}
+.priceRow b {
+  flex: none;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.priceNote {
+  display: block;
+  margin-top: 3px;
+  font-style: normal;
+  font-size: 0.79rem;
+  color: var(--accent);
+}
+
+/* ---------- faq ---------- */
+.faq {
+  background: var(--soft);
+  padding-block: clamp(52px, 7vw, 110px);
+}
+.faqIn {
+  display: grid;
+  gap: clamp(24px, 3vw, 56px);
+  align-items: start;
+}
+.faqTitle {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+}
+.faqList {
+  display: grid;
+}
+.q {
+  border-bottom: 1px solid var(--line-2);
+}
+.q:first-child {
+  border-top: 1px solid var(--line-2);
+}
+.q button {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  padding: 19px 0;
+  text-align: left;
+  font-size: clamp(1rem, 1.5vw, 1.14rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+.q button i {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin-left: auto;
+  border-radius: 999px;
+  border: 1px solid var(--line-2);
+  color: var(--ink-2);
+  transition: transform 0.5s var(--ease), background 0.4s, color 0.3s, border-color 0.3s;
+}
+.q[data-open="true"] button i {
+  transform: rotate(135deg);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.a {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.55s var(--ease);
+}
+.q[data-open="true"] .a {
+  grid-template-rows: 1fr;
+}
+.a p {
+  overflow: hidden;
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: var(--ink-2);
+  max-width: 62ch;
+}
+.q[data-open="true"] .a p {
+  padding-bottom: 20px;
+}
+
+/* ---------- related ---------- */
+.related {
+  padding-block: clamp(52px, 7vw, 100px);
+}
+.relTitle {
+  margin: 0 0 clamp(22px, 3vw, 40px);
+  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+}
+.relGrid {
+  display: grid;
+  gap: clamp(16px, 2vw, 28px);
+}
+.rel {
+  display: block;
+}
+.relImg {
+  display: block;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 16 / 11;
+  background: var(--soft);
+  margin-bottom: 13px;
+}
+.relImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s var(--ease);
+}
+.rel:hover .relImg img {
+  transform: scale(1.06);
+}
+.rel b {
+  display: block;
+  font-size: 1.03rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  transition: color 0.3s;
+}
+.rel:hover b {
+  color: var(--accent);
+}
+.rel i {
+  display: block;
+  margin-top: 3px;
+  font-style: normal;
+  font-size: 0.85rem;
+  color: var(--ink-3);
+}
+
+@media (min-width: 640px) {
+  .facts {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .flowList {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .relGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .checks {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1000px) {
+  .split {
+    grid-template-columns: 1.55fr 0.85fr;
+  }
+  .aside {
+    position: sticky;
+    top: 104px;
+  }
+  .pricesIn,
+  .faqIn {
+    grid-template-columns: 0.8fr 1.2fr;
+  }
+  .flowList {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}

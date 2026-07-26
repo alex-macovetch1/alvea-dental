@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
-import { SERVICES, UI } from "@/lib/content";
+import { SERVICES } from "@/lib/content";
 import { useLang } from "@/lib/i18n";
 import { Arrow, Clock } from "./Icons";
 import css from "./Services.module.css";
@@ -33,8 +34,8 @@ export default function Services() {
         <div className={css.split}>
           <div className={css.list}>
             {SERVICES.map((s, i) => (
-              <a
-                href="#contact"
+              <Link
+                href={`/servicii/${s.slug}`}
                 className={`${css.row} rv`}
                 key={s.slug}
                 data-on={active === i}
@@ -57,7 +58,7 @@ export default function Services() {
                 <span className={css.thumb}>
                   <Image src={s.img} alt="" width={640} height={400} sizes="100vw" />
                 </span>
-              </a>
+              </Link>
             ))}
           </div>
 
@@ -85,12 +86,12 @@ export default function Services() {
         </div>
 
         <div className={css.foot}>
-          <a href="#contact" className="btn">
-            {t(UI.book)}
+          <Link href="/servicii" className="btn">
+            {t({ ro: "Vezi toate serviciile", ru: "Смотреть все услуги" })}
             <span className="ic">
               <Arrow size={12} />
             </span>
-          </a>
+          </Link>
           <p className={css.footNote}>
             {t({
               ro: "Nu ești sigur de ce ai nevoie? Vino la consultația gratuită — îți spunem și dacă răspunsul e „nu ai nevoie de nimic”.",

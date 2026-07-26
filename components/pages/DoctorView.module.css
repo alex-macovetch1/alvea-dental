@@ -1,0 +1,335 @@
+.headActs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.top {
+  padding-bottom: clamp(30px, 4vw, 60px);
+}
+.topIn {
+  display: grid;
+  gap: clamp(22px, 3vw, 52px);
+  align-items: stretch;
+}
+.portrait {
+  border-radius: clamp(16px, 2vw, 24px);
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  background: var(--soft);
+}
+.portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(22px, 3vw, 38px);
+}
+.quote {
+  margin: 0;
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: clamp(1.3rem, 2.8vw, 2.1rem);
+  line-height: 1.28;
+  letter-spacing: -0.02em;
+  max-width: 22ch;
+}
+:global(html[data-lang="ru"]) .quote {
+  font-family: var(--f-sans);
+  font-style: normal;
+  font-weight: 300;
+  letter-spacing: -0.035em;
+}
+
+.nums {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.num {
+  background: var(--paper);
+  padding: clamp(14px, 1.8vw, 22px);
+}
+.num b {
+  display: block;
+  font-size: clamp(1.3rem, 2.4vw, 1.9rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+.num i {
+  display: block;
+  margin-top: 6px;
+  font-style: normal;
+  font-size: 0.76rem;
+  line-height: 1.35;
+  color: var(--ink-3);
+}
+
+.facts {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+}
+.facts dt {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.facts dd {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 5px 0 0;
+  font-size: 0.96rem;
+  font-weight: 600;
+}
+.facts dd svg {
+  color: var(--accent);
+}
+
+/* ---------- bio ---------- */
+.main {
+  padding-block: clamp(44px, 6vw, 92px);
+  border-top: 1px solid var(--line);
+}
+.split {
+  display: grid;
+  gap: clamp(30px, 4vw, 68px);
+  align-items: start;
+}
+.article {
+  max-width: 66ch;
+}
+.h2 {
+  margin: 0 0 14px;
+  font-size: clamp(1.3rem, 2.4vw, 1.85rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+.h2b {
+  margin-top: clamp(30px, 3.6vw, 50px);
+}
+.article p {
+  margin: 0 0 15px;
+  font-size: 1.02rem;
+  line-height: 1.72;
+  color: var(--ink-2);
+}
+.focus {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 11px;
+}
+.focus li {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  font-size: 0.97rem;
+  color: var(--ink-2);
+}
+.focus i {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 2px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-2);
+}
+
+.edu {
+  padding: clamp(20px, 2.4vw, 30px);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--soft);
+}
+.eduTitle {
+  margin: 0 0 16px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.eduList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+}
+.eduList li {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 14px;
+  padding: 13px 0;
+  border-top: 1px solid var(--line-2);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.eduList li:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.eduList b {
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+
+/* ---------- services ---------- */
+.does {
+  background: var(--sand);
+  padding-block: clamp(48px, 6vw, 98px);
+}
+.doesTitle {
+  margin: 0 0 clamp(24px, 3vw, 44px);
+  font-size: clamp(1.7rem, 3.8vw, 2.9rem);
+}
+.doesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(12px, 1.6vw, 22px);
+}
+.doesCard {
+  position: relative;
+  display: block;
+  padding: 12px 12px 16px;
+  border-radius: 18px;
+  background: var(--paper);
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+}
+.doesCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -28px rgba(11, 20, 24, 0.5);
+}
+.doesImg {
+  display: block;
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 16 / 11;
+  background: var(--soft);
+  margin-bottom: 12px;
+}
+.doesImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.doesCard b {
+  display: block;
+  padding-inline: 4px;
+  font-size: 0.96rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.doesCard i {
+  display: block;
+  padding-inline: 4px;
+  margin-top: 3px;
+  font-style: normal;
+  font-size: 0.82rem;
+  color: var(--ink-3);
+}
+.doesCard svg {
+  position: absolute;
+  right: 16px;
+  bottom: 18px;
+  color: var(--ink-3);
+  transition: transform 0.5s var(--ease), color 0.3s;
+}
+.doesCard:hover svg {
+  transform: translateX(4px);
+  color: var(--accent);
+}
+
+/* ---------- other doctors ---------- */
+.others {
+  padding-block: clamp(48px, 6vw, 96px);
+}
+.othersTitle {
+  margin: 0 0 clamp(22px, 3vw, 40px);
+  font-size: clamp(1.6rem, 3.4vw, 2.5rem);
+}
+.othersGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(14px, 2vw, 26px);
+}
+.other {
+  display: block;
+}
+.otherImg {
+  display: block;
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  background: var(--soft);
+  margin-bottom: 12px;
+}
+.otherImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1);
+  transition: filter 0.7s var(--ease), transform 0.9s var(--ease);
+}
+.other:hover .otherImg img {
+  filter: none;
+  transform: scale(1.05);
+}
+.other b {
+  display: block;
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  transition: color 0.3s;
+}
+.other:hover b {
+  color: var(--accent);
+}
+.other i {
+  display: block;
+  margin-top: 3px;
+  font-style: normal;
+  font-size: 0.82rem;
+  color: var(--ink-3);
+}
+
+@media (min-width: 700px) {
+  .doesGrid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+  .othersGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .topIn {
+    grid-template-columns: 0.88fr 1.12fr;
+  }
+  .split {
+    grid-template-columns: 1.5fr 0.9fr;
+  }
+  .edu {
+    position: sticky;
+    top: 104px;
+  }
+}

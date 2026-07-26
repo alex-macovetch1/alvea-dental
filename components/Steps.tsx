@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { STEPS, UI } from "@/lib/content";
 import { useLang } from "@/lib/i18n";
@@ -92,12 +93,12 @@ export default function Steps() {
               })}
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
-              <a href="#contact" className="btn">
+              <Link href="/programare" className="btn">
                 {t(UI.book)}
                 <span className="ic">
                   <Arrow size={12} />
                 </span>
-              </a>
+              </Link>
               <a href={CLINIC.phoneHref} className="btn btn-ghost">
                 <Phone size={16} />
                 {CLINIC.phone}

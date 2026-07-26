@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { PRICES, PRICE_NOTE } from "@/lib/content";
 import { useLang } from "@/lib/i18n";
 import { Tooth } from "./Icons";
@@ -55,9 +56,9 @@ export default function Prices() {
             <Tooth size={20} />
           </span>
           <p className={css.noteText}>{t(PRICE_NOTE)}</p>
-          <a href="#contact" className="btn btn-ghost" style={{ marginLeft: "auto" }}>
-            {t({ ro: "Cere un deviz exact", ru: "Запросить точную смету" })}
-          </a>
+          <Link href="/preturi" className="btn btn-ghost" style={{ marginLeft: "auto" }}>
+            {t({ ro: "Lista completă de prețuri", ru: "Полный прайс-лист" })}
+          </Link>
         </div>
       </div>
     </section>

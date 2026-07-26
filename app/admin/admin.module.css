@@ -1,0 +1,292 @@
+/* The clinic's own screen. Denser and plainer than the public site on
+   purpose: this one is read forty times a day by someone in a hurry. */
+
+.gate {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: 24px;
+  background: var(--soft);
+}
+.gateBox {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  max-width: 380px;
+  padding: 32px;
+  border-radius: 22px;
+  background: var(--paper);
+  box-shadow: 0 30px 70px -50px rgba(11, 20, 24, 0.7);
+}
+.gateMark {
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.24em;
+  color: var(--accent);
+}
+.gateBox h1 {
+  margin: 4px 0 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+.gateBox p {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--ink-3);
+}
+.gateBox input {
+  padding: 13px 16px;
+  border: 1px solid var(--line-2);
+  border-radius: 12px;
+  font: inherit;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.gateBox input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+.gateBox button {
+  padding: 13px;
+  border-radius: 12px;
+  background: var(--ink);
+  color: #fff;
+  font-weight: 700;
+  transition: background 0.3s;
+}
+.gateBox button:hover {
+  background: var(--accent);
+}
+.gateErr {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #c0392b;
+}
+.gateBack {
+  margin-top: 4px;
+  font-size: 0.82rem;
+  color: var(--ink-3);
+  text-align: center;
+}
+
+.shell {
+  max-width: 1180px;
+  margin-inline: auto;
+  padding: 20px clamp(14px, 3vw, 30px) 80px;
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+.mark {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+}
+.bar b {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+.barRight {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.pill {
+  padding: 7px 13px;
+  border-radius: 999px;
+  background: var(--soft);
+  font-size: 0.8rem;
+  color: var(--ink-2);
+}
+.pill b {
+  font-size: 0.86rem;
+}
+.refresh,
+.exit {
+  padding: 8px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+.refresh:hover,
+.exit:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin: 18px 0 22px;
+}
+.tabs button {
+  padding: 8px 15px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-size: 0.83rem;
+  font-weight: 700;
+  color: var(--ink-2);
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+.tabs button[data-on="true"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+
+.empty {
+  padding: 40px 0;
+  color: var(--ink-3);
+}
+
+.day + .day {
+  margin-top: 26px;
+}
+.day h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: capitalize;
+}
+.day h2 i {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-style: normal;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.day h2 em {
+  margin-left: auto;
+  font-style: normal;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink-3);
+  text-transform: none;
+}
+
+.rows {
+  display: grid;
+  gap: 6px;
+}
+.row {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 8px 14px;
+  padding: 13px 15px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--paper);
+  transition: border-color 0.3s, opacity 0.3s;
+}
+.row[data-status="done"] {
+  background: var(--soft);
+  opacity: 0.72;
+}
+.row[data-status="cancelled"] {
+  opacity: 0.5;
+}
+.row[data-status="cancelled"] .time,
+.row[data-status="cancelled"] .who b {
+  text-decoration: line-through;
+}
+.time {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.time i {
+  display: block;
+  font-style: normal;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--ink-3);
+}
+.who b {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.who a {
+  font-size: 0.86rem;
+  color: var(--accent);
+}
+.note {
+  margin: 6px 0 0;
+  padding: 7px 10px;
+  border-radius: 9px;
+  background: var(--soft);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+.what span {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+.what i {
+  display: block;
+  font-style: normal;
+  font-size: 0.79rem;
+  color: var(--ink-3);
+}
+.code {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--ink-3);
+}
+.acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.acts button {
+  padding: 6px 12px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+.acts button:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+}
+.acts .cancel:hover {
+  background: #c0392b;
+  border-color: #c0392b;
+}
+
+@media (min-width: 860px) {
+  .row {
+    grid-template-columns: 76px 1.35fr 1fr 82px auto;
+    align-items: center;
+  }
+}
