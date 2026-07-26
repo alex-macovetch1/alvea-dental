@@ -1,0 +1,275 @@
+.sec {
+  position: relative;
+  overflow: clip;
+}
+.sec::before {
+  content: "";
+  position: absolute;
+  left: -14vw;
+  bottom: -20vw;
+  width: 54vw;
+  height: 54vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-soft) 0%, rgba(226, 242, 245, 0) 68%);
+  pointer-events: none;
+}
+
+.grid {
+  position: relative;
+  display: grid;
+  gap: clamp(30px, 4vw, 66px);
+  align-items: start;
+}
+
+.title {
+  margin: 14px 0 18px;
+  font-size: clamp(2rem, 4.8vw, 3.8rem);
+}
+
+.facts {
+  display: grid;
+  gap: 2px;
+  margin-top: clamp(26px, 3vw, 38px);
+  border-top: 1px solid var(--line);
+}
+.fact {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.fact i {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: var(--soft);
+  color: var(--accent);
+  flex: none;
+}
+.fact b {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 3px;
+}
+.fact span {
+  font-size: 0.97rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.fact a:hover {
+  color: var(--accent);
+}
+
+.hours {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  font-size: 0.9rem;
+  padding: 3px 0;
+}
+.hours span:last-child {
+  font-weight: 700;
+}
+
+.map {
+  position: relative;
+  margin-top: clamp(22px, 2.6vw, 32px);
+  border-radius: clamp(14px, 1.6vw, 20px);
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: var(--soft);
+  border: 1px solid var(--line);
+}
+.map iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  /* the default Maps tile palette fights the page; this cools it down */
+  filter: grayscale(0.55) contrast(1.05);
+}
+
+/* ---------- form card ---------- */
+.card {
+  position: relative;
+  padding: clamp(22px, 3vw, 40px);
+  border: 1px solid var(--line);
+  border-radius: clamp(18px, 2.2vw, 28px);
+  background: #fff;
+  box-shadow: 0 40px 70px -50px rgba(4, 16, 20, 0.5);
+}
+.cardTop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 18px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+.cardTop i {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #35d07f;
+  animation: blip 2.2s infinite;
+}
+@keyframes blip {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.field {
+  position: relative;
+  padding-top: 20px;
+}
+.field label {
+  position: absolute;
+  top: 22px;
+  left: 0;
+  font-size: 0.97rem;
+  color: var(--ink-3);
+  pointer-events: none;
+  transition: transform 0.4s var(--ease), font-size 0.4s var(--ease), color 0.3s;
+  transform-origin: left top;
+}
+.field input:focus + label,
+.field input:not(:placeholder-shown) + label {
+  transform: translateY(-19px);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.field input,
+.field select {
+  width: 100%;
+  padding: 12px 0;
+  border: 0;
+  border-bottom: 1px solid var(--line-2);
+  border-radius: 0;
+  background: none;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.4s;
+  appearance: none;
+}
+.field input:focus,
+.field select:focus {
+  border-bottom-color: var(--accent);
+}
+.field select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238b9aa0' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 2px center;
+}
+.selLabel {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 2px;
+}
+.err {
+  display: block;
+  margin-top: 7px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #cf4040;
+}
+
+.row2 {
+  display: grid;
+  gap: 18px;
+}
+.submit {
+  width: 100%;
+  justify-content: center;
+  margin-top: 26px;
+}
+.privacy {
+  margin: 14px 0 0;
+  font-size: 0.78rem;
+  color: var(--ink-3);
+  text-align: center;
+}
+
+/* ---------- done ---------- */
+.done {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  gap: 8px;
+  padding: clamp(24px, 4vw, 44px) 0;
+  animation: swapin 0.6s var(--ease) both;
+}
+@keyframes swapin {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+.tick {
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.tick svg {
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+  animation: draw 0.7s var(--ease) 0.15s forwards;
+}
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.done h3 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+.done p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--ink-2);
+  max-width: 34ch;
+}
+
+@media (min-width: 620px) {
+  .row2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (min-width: 980px) {
+  .grid {
+    grid-template-columns: 1fr 0.92fr;
+  }
+  /* the form follows you past the address block instead of leaving a hole */
+  .card {
+    position: sticky;
+    top: 108px;
+  }
+}

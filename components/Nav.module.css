@@ -1,0 +1,314 @@
+.shell {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 60;
+  transition: transform 0.5s var(--ease);
+}
+.shell[data-hidden="true"] {
+  transform: translateY(-100%);
+}
+
+/* A thin strip of the things people phone to ask about anyway. */
+.strip {
+  background: var(--ink);
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.78rem;
+  letter-spacing: -0.005em;
+  overflow: hidden;
+  max-height: 44px;
+  transition: max-height 0.5s var(--ease), opacity 0.35s;
+}
+.shell[data-stuck="true"] .strip {
+  max-height: 0;
+  opacity: 0;
+}
+.stripIn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  height: 44px;
+}
+.stripL,
+.stripR {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  white-space: nowrap;
+}
+.stripIn a:hover {
+  color: #fff;
+}
+.stripItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.live {
+  color: #fff;
+  font-weight: 700;
+}
+.live i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+  border-radius: 999px;
+  background: #35d07f;
+  box-shadow: 0 0 0 0 rgba(53, 208, 127, 0.65);
+  animation: pulse 2.4s infinite;
+}
+@keyframes pulse {
+  70% {
+    box-shadow: 0 0 0 8px rgba(53, 208, 127, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(53, 208, 127, 0);
+  }
+}
+
+.bar {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.4s, box-shadow 0.4s;
+}
+.shell[data-stuck="true"] .bar {
+  border-bottom-color: var(--line);
+  box-shadow: 0 12px 30px -26px rgba(11, 20, 24, 0.5);
+}
+.barIn {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 3vw, 40px);
+  height: clamp(66px, 7vw, 82px);
+}
+
+/* ---------- brand ---------- */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: auto;
+}
+.mark {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #fff;
+  transition: transform 0.6s var(--ease);
+}
+.brand:hover .mark {
+  transform: rotate(-8deg) scale(1.06);
+}
+.word {
+  font-weight: 800;
+  font-size: 1.24rem;
+  letter-spacing: 0.14em;
+  line-height: 1;
+}
+.sub {
+  display: block;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-top: 3px;
+}
+
+/* ---------- links ---------- */
+.links {
+  display: none;
+  align-items: center;
+  gap: clamp(14px, 1.8vw, 30px);
+}
+.link {
+  position: relative;
+  padding: 6px 0;
+  font-size: 0.93rem;
+  font-weight: 600;
+  color: var(--ink-2);
+  transition: color 0.3s;
+}
+.link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s var(--ease);
+}
+.link:hover {
+  color: var(--ink);
+}
+.link:hover::after {
+  transform: none;
+}
+
+/* ---------- right side ---------- */
+.right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tel {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 0.93rem;
+  transition: color 0.3s;
+}
+.tel:hover {
+  color: var(--accent);
+}
+
+.lang {
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: #fff;
+}
+.lang button {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+  transition: color 0.3s, background 0.4s var(--ease);
+}
+.lang button[data-on="true"] {
+  background: var(--ink);
+  color: #fff;
+}
+
+.cta {
+  display: none;
+}
+
+/* ---------- burger ---------- */
+/* flex + gap, not grid: grid rows absorb the margin and the X stops meeting */
+.burger {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4.5px;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: #fff;
+}
+.burger span {
+  display: block;
+  width: 17px;
+  height: 1.8px;
+  background: var(--ink);
+  border-radius: 2px;
+  transition: transform 0.45s var(--ease), opacity 0.25s;
+}
+.burger[data-open="true"] span:nth-child(1) {
+  transform: translateY(6.3px) rotate(45deg);
+}
+.burger[data-open="true"] span:nth-child(2) {
+  opacity: 0;
+}
+.burger[data-open="true"] span:nth-child(3) {
+  transform: translateY(-6.3px) rotate(-45deg);
+}
+
+/* ---------- mobile sheet ---------- */
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 2px;
+  padding: 128px var(--gut) 34px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--paper);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 0.4s var(--ease), transform 0.5s var(--ease);
+}
+.sheet[data-open="true"] {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+.sheetLink {
+  display: flex;
+  align-items: baseline;
+  gap: 13px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--f-sans);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  font-size: clamp(1.45rem, 6.4vw, 2.1rem);
+  opacity: 0;
+  transform: translateY(14px);
+}
+.sheet[data-open="true"] .sheetLink {
+  animation: sheetin 0.6s var(--ease) forwards;
+  animation-delay: var(--d);
+}
+@keyframes sheetin {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.sheetNum {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0;
+}
+.sheetFoot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+/* the strip only has room for the opening hours on a phone */
+@media (max-width: 720px) {
+  .stripR {
+    display: none;
+  }
+}
+
+@media (min-width: 700px) {
+  .tel {
+    display: inline-flex;
+  }
+}
+@media (min-width: 1080px) {
+  .links {
+    display: flex;
+  }
+  .cta {
+    display: inline-flex;
+  }
+  .burger,
+  .sheet {
+    display: none;
+  }
+}

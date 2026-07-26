@@ -1,0 +1,247 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   ALVEA — design tokens
+   A dental clinic reads as "clean" long before anyone reads a word, so the
+   palette is mostly paper. One teal carries every action; one sand tone warms
+   the blocks that would otherwise feel like a hospital.
+   ========================================================================== */
+:root {
+  --paper: #ffffff;
+  --soft: #f4f7f8;
+  --sand: #ece5db;
+  --sand-deep: #e0d6c8;
+  --ink: #0b1418;
+  --ink-2: #4a5c63;
+  --ink-3: #8b9aa0;
+  --line: #e4e9eb;
+  --line-2: #d3dbde;
+  --accent: #0f8b9e;
+  --accent-2: #0b6d7c;
+  --accent-soft: #e2f2f5;
+
+  --gut: clamp(20px, 5vw, 76px);
+  --maxw: 1560px;
+
+  --f-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --f-serif: var(--font-instrument), Georgia, serif;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--f-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ---------- layout ---------- */
+.wrap {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gut);
+}
+
+.sec {
+  padding-block: clamp(72px, 9vw, 150px);
+}
+
+/* ---------- type ---------- */
+.display {
+  font-family: var(--f-sans);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+  text-wrap: balance;
+}
+
+.serif {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+/* Instrument Serif has no Cyrillic, so Russian gets the same contrast from a
+   much lighter weight of the sans instead of a fake oblique. */
+html[data-lang="ru"] .serif {
+  font-family: var(--f-sans);
+  font-style: normal;
+  font-weight: 300;
+  letter-spacing: -0.045em;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 1px;
+  background: currentColor;
+}
+
+.lede {
+  font-size: clamp(1rem, 1.25vw, 1.16rem);
+  line-height: 1.62;
+  color: var(--ink-2);
+  max-width: 56ch;
+}
+
+/* ---------- buttons ---------- */
+.btn {
+  --bg: var(--ink);
+  --fg: #fff;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 26px;
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--fg);
+  font-weight: 700;
+  font-size: 0.94rem;
+  letter-spacing: -0.01em;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease), color 0.4s;
+}
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--accent);
+  transform: translateY(101%);
+  transition: transform 0.5s var(--ease);
+}
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px -14px rgba(11, 20, 24, 0.5);
+}
+.btn:hover::before {
+  transform: none;
+}
+.btn-accent {
+  --bg: var(--accent);
+}
+.btn-accent::before {
+  background: var(--ink);
+}
+.btn-ghost {
+  --bg: transparent;
+  --fg: var(--ink);
+  border: 1px solid var(--line-2);
+}
+.btn-ghost:hover {
+  --fg: #fff;
+  border-color: var(--ink);
+}
+.btn-ghost::before {
+  background: var(--ink);
+}
+.btn .ic {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  transition: transform 0.5s var(--ease);
+}
+.btn-ghost .ic {
+  background: rgba(11, 20, 24, 0.08);
+}
+.btn:hover .ic {
+  transform: rotate(45deg);
+}
+
+/* ---------- scroll reveal ---------- */
+.rv {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  transition-delay: var(--d, 0ms);
+}
+.rv.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* A photo that uncovers itself instead of fading — reads as intentional. */
+.rvimg > * {
+  transform: scale(1.12);
+  transition: transform 1.4s var(--ease), filter 1.4s var(--ease);
+  filter: blur(5px);
+}
+.rvimg.in > * {
+  transform: none;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv,
+  .rvimg > * {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ---------- shared surfaces ---------- */
+.hair {
+  height: 1px;
+  background: var(--line);
+  border: 0;
+  margin: 0;
+}

@@ -1,0 +1,56 @@
+.band {
+  position: relative;
+  padding-block: clamp(16px, 2vw, 26px);
+  border-block: 1px solid var(--line);
+  background: var(--soft);
+  overflow: hidden;
+  user-select: none;
+}
+.band::before,
+.band::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: clamp(40px, 8vw, 120px);
+  z-index: 2;
+  pointer-events: none;
+}
+.band::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--soft), rgba(244, 247, 248, 0));
+}
+.band::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--soft), rgba(244, 247, 248, 0));
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+.half {
+  display: flex;
+  align-items: center;
+}
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(18px, 2.4vw, 34px);
+  padding-inline: clamp(9px, 1.2vw, 17px);
+  font-family: var(--f-sans);
+  font-weight: 700;
+  font-size: clamp(1.05rem, 2.1vw, 1.7rem);
+  letter-spacing: -0.035em;
+  white-space: nowrap;
+  color: var(--ink);
+}
+.item i {
+  color: var(--accent);
+  opacity: 0.85;
+  flex: none;
+}
+.item:nth-child(even) {
+  color: var(--ink-3);
+}

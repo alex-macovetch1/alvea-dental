@@ -1,0 +1,109 @@
+.head {
+  display: grid;
+  gap: 20px;
+  align-items: end;
+  margin-bottom: clamp(32px, 4vw, 56px);
+}
+.title {
+  margin: 14px 0 0;
+  font-size: clamp(2rem, 5vw, 4rem);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(14px, 2vw, 30px);
+}
+
+.card {
+  position: relative;
+}
+.frame {
+  position: relative;
+  border-radius: clamp(14px, 1.6vw, 20px);
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  background: var(--soft);
+}
+.frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.03);
+  transform: scale(1.02);
+  transition: filter 0.7s var(--ease), transform 0.9s var(--ease);
+}
+.card:hover .frame img {
+  filter: none;
+  transform: scale(1.06);
+}
+.wash {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 139, 158, 0.14), rgba(4, 16, 20, 0.34));
+  opacity: 1;
+  transition: opacity 0.7s var(--ease);
+  pointer-events: none;
+}
+.card:hover .wash {
+  opacity: 0;
+}
+
+.badge {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  transform: translateY(8px);
+  opacity: 0;
+  transition: transform 0.55s var(--ease), opacity 0.45s;
+}
+.card:hover .badge {
+  transform: none;
+  opacity: 1;
+}
+
+.name {
+  margin: 16px 0 3px;
+  font-size: clamp(1rem, 1.5vw, 1.16rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.role {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 26px;
+  margin-top: clamp(34px, 4vw, 56px);
+  padding-top: clamp(22px, 2.6vw, 32px);
+  border-top: 1px solid var(--line);
+}
+.stripText {
+  font-size: 0.93rem;
+  color: var(--ink-2);
+  max-width: 52ch;
+}
+
+@media (min-width: 860px) {
+  .head {
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  /* a soft rhythm instead of four boxes in a straight line */
+  .card:nth-child(even) {
+    margin-top: clamp(26px, 4vw, 64px);
+  }
+}

@@ -1,0 +1,155 @@
+.grid {
+  display: grid;
+  gap: clamp(26px, 4vw, 60px);
+  align-items: center;
+}
+
+.title {
+  margin: 14px 0 18px;
+  font-size: clamp(2rem, 4.6vw, 3.6rem);
+}
+
+.figures {
+  display: flex;
+  gap: 26px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.fig b {
+  display: block;
+  font-family: var(--f-sans);
+  font-weight: 800;
+  font-size: 1.7rem;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+.fig span {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.83rem;
+  color: var(--ink-3);
+  max-width: 18ch;
+}
+
+/* ---------- the comparison ---------- */
+.box {
+  position: relative;
+  border-radius: clamp(18px, 2vw, 26px);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--soft);
+  cursor: ew-resize;
+  touch-action: pan-y;
+  user-select: none;
+}
+.layer {
+  position: absolute;
+  inset: 0;
+}
+.layer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* "before" sits on top and is trimmed by the handle position */
+.before {
+  clip-path: inset(0 calc(100% - var(--x, 50%)) 0 0);
+}
+.before img {
+  filter: sepia(0.44) saturate(1.15) contrast(0.9) brightness(0.95);
+}
+
+.handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--x, 50%);
+  width: 2px;
+  background: #fff;
+  box-shadow: 0 0 22px rgba(4, 16, 20, 0.4);
+  transform: translateX(-1px);
+}
+.knob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 14px 30px -12px rgba(4, 16, 20, 0.55);
+  transition: transform 0.4s var(--ease);
+}
+.box:hover .knob {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+.knob svg + svg {
+  margin-left: -3px;
+}
+
+.pill {
+  position: absolute;
+  top: 16px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: rgba(4, 16, 20, 0.55);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.pillL {
+  left: 16px;
+}
+.pillR {
+  right: 16px;
+}
+
+.hint {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 0.73rem;
+  font-weight: 700;
+  color: var(--ink-2);
+  pointer-events: none;
+  animation: nudge 3.4s ease-in-out infinite;
+}
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translateX(-50%);
+  }
+  40% {
+    transform: translateX(calc(-50% - 9px));
+  }
+  70% {
+    transform: translateX(calc(-50% + 9px));
+  }
+}
+.box[data-touched="true"] .hint {
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: 0.82fr 1.18fr;
+  }
+}

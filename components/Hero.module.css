@@ -1,0 +1,260 @@
+.hero {
+  padding-top: clamp(150px, 16vw, 214px);
+  padding-bottom: clamp(30px, 5vw, 60px);
+  position: relative;
+  overflow: clip;
+}
+
+/* A very soft wash behind the headline so the page is not flat white. */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -18vw;
+  right: -12vw;
+  width: 62vw;
+  height: 62vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-soft) 0%, rgba(226, 242, 245, 0) 66%);
+  pointer-events: none;
+  animation: drift 22s ease-in-out infinite alternate;
+}
+@keyframes drift {
+  to {
+    transform: translate3d(-5%, 4%, 0) scale(1.12);
+  }
+}
+
+.top {
+  position: relative;
+  display: grid;
+  gap: clamp(26px, 4vw, 50px);
+  align-items: end;
+  grid-template-columns: 1fr;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px 7px 8px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ink-2);
+  margin-bottom: 22px;
+}
+.badge b {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.h1 {
+  margin: 0;
+  font-size: clamp(2.6rem, 7.2vw, 6.4rem);
+}
+.h1 em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+/* word-by-word mask reveal */
+.w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.w > i {
+  display: inline-block;
+  font-style: inherit;
+  animation: wordup 1s var(--ease) both;
+}
+@keyframes wordup {
+  from {
+    transform: translateY(115%);
+  }
+}
+
+.aside {
+  padding-bottom: 6px;
+}
+.acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 26px;
+}
+.free {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 20px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--accent-2);
+}
+.free i {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  flex: none;
+}
+
+/* ---------- the window ---------- */
+.stage {
+  position: relative;
+  margin-top: clamp(38px, 5.5vw, 76px);
+  border-radius: clamp(20px, 2.4vw, 34px);
+  overflow: hidden;
+  background: var(--soft);
+  aspect-ratio: 21 / 9;
+  min-height: 300px;
+}
+.stage video,
+.stage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: transform;
+}
+.shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(4, 16, 20, 0.4) 0%, rgba(4, 16, 20, 0) 34%, rgba(4, 16, 20, 0.44) 100%);
+  pointer-events: none;
+}
+
+.chip {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 20px 40px -24px rgba(4, 16, 20, 0.6);
+  animation: float 7s ease-in-out infinite;
+}
+@keyframes float {
+  50% {
+    transform: translateY(-9px);
+  }
+}
+.chipRating {
+  left: clamp(14px, 2.4vw, 30px);
+  bottom: clamp(14px, 2.4vw, 30px);
+}
+.chipPatients {
+  right: clamp(14px, 2.4vw, 30px);
+  top: clamp(14px, 2.4vw, 30px);
+  animation-delay: 1.6s;
+}
+.chipBig {
+  font-family: var(--f-sans);
+  font-weight: 800;
+  font-size: 1.3rem;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.chipSmall {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--ink-3);
+  margin-top: 3px;
+}
+.stars {
+  display: flex;
+  gap: 2px;
+  color: #f2b429;
+  margin-bottom: 3px;
+}
+.faces {
+  display: flex;
+}
+.faces span {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 2px solid #fff;
+  background: var(--soft);
+}
+.faces span + span {
+  margin-left: -12px;
+}
+.faces img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scroll {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(14px, 2.4vw, 26px);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.scroll i {
+  display: block;
+  width: 1px;
+  height: 26px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), #fff);
+  animation: drop 2.2s var(--ease) infinite;
+}
+@keyframes drop {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  45% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  46% {
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+@media (min-width: 1000px) {
+  .top {
+    grid-template-columns: 1.35fr 0.85fr;
+  }
+  .aside {
+    justify-self: end;
+    max-width: 430px;
+  }
+}
+@media (max-width: 640px) {
+  .stage {
+    aspect-ratio: 4 / 5;
+  }
+  .chipPatients {
+    display: none;
+  }
+}
