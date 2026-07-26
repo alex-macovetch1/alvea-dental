@@ -9,8 +9,14 @@
   font-size: clamp(2rem, 5.2vw, 4.2rem);
 }
 
+/* list on one side, picture on the other — the photo never covers the words */
+.split {
+  display: grid;
+  gap: clamp(26px, 3.4vw, 58px);
+  align-items: start;
+}
+
 .list {
-  position: relative;
   border-top: 1px solid var(--line);
 }
 
@@ -18,14 +24,13 @@
   position: relative;
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 14px 18px;
+  gap: 12px 16px;
   align-items: center;
-  padding: clamp(18px, 2.4vw, 30px) 0;
+  width: 100%;
+  text-align: left;
+  padding: clamp(16px, 2vw, 24px) 0;
   border-bottom: 1px solid var(--line);
   transition: padding-left 0.55s var(--ease);
-}
-.row:hover {
-  padding-left: clamp(8px, 1.4vw, 22px);
 }
 .row::after {
   content: "";
@@ -39,7 +44,10 @@
   transform-origin: left;
   transition: transform 0.7s var(--ease);
 }
-.row:hover::after {
+.row[data-on="true"] {
+  padding-left: clamp(8px, 1.2vw, 18px);
+}
+.row[data-on="true"]::after {
   transform: none;
 }
 
@@ -50,33 +58,28 @@
   color: var(--ink-3);
   transition: color 0.4s;
 }
-.row:hover .idx {
+.row[data-on="true"] .idx {
   color: var(--accent);
 }
 
-.main {
-  display: grid;
-  gap: 6px 26px;
-  align-items: baseline;
-}
 .name {
   margin: 0;
   font-family: var(--f-sans);
   font-weight: 800;
   letter-spacing: -0.04em;
-  line-height: 1.05;
-  font-size: clamp(1.35rem, 3.3vw, 2.5rem);
+  line-height: 1.06;
+  font-size: clamp(1.3rem, 2.6vw, 2.1rem);
   transition: color 0.4s;
 }
-.row:hover .name {
+.row[data-on="true"] .name {
   color: var(--accent);
 }
 .text {
-  margin: 0;
-  font-size: 0.93rem;
-  line-height: 1.55;
+  margin: 5px 0 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
   color: var(--ink-2);
-  max-width: 48ch;
+  max-width: 44ch;
 }
 
 .meta {
@@ -84,54 +87,88 @@
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
-  grid-column: 1 / -1;
+  grid-column: 2 / -1;
+  margin-top: 8px;
 }
 .price {
   font-weight: 800;
-  font-size: 1rem;
+  font-size: 0.97rem;
   letter-spacing: -0.02em;
   white-space: nowrap;
 }
 .time {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   gap: 6px;
-  padding: 4px 11px;
+  padding: 3px 10px;
   border: 1px solid var(--line-2);
   border-radius: 999px;
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   font-weight: 700;
   color: var(--ink-3);
   white-space: nowrap;
 }
 
-/* the thumbnail that follows the pointer */
-.peek {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 250px;
-  height: 320px;
-  border-radius: 18px;
+/* ---------- the picture panel ---------- */
+.panel {
+  position: sticky;
+  top: 104px;
+  border-radius: clamp(16px, 2vw, 24px);
   overflow: hidden;
-  pointer-events: none;
+  aspect-ratio: 4 / 5;
+  background: var(--soft);
+  display: none;
+}
+.frame {
+  position: absolute;
+  inset: 0;
   opacity: 0;
-  z-index: 5;
-  box-shadow: 0 40px 60px -34px rgba(4, 16, 20, 0.6);
-  transition: opacity 0.4s var(--ease);
-  will-change: transform;
+  transition: opacity 0.65s var(--ease), transform 1.4s var(--ease);
+  transform: scale(1.06);
 }
-.peek[data-on="true"] {
+.frame[data-on="true"] {
   opacity: 1;
+  transform: none;
 }
-.peek img {
+.frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+.panelShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(4, 16, 20, 0) 46%, rgba(4, 16, 20, 0.62) 100%);
+  pointer-events: none;
+}
+.panelCard {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 16px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+}
+.panelName {
+  font-weight: 800;
+  font-size: 0.98rem;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+.panelPrice {
+  font-weight: 800;
+  font-size: 0.98rem;
+  color: var(--accent);
+  white-space: nowrap;
+}
 
-/* mobile: the row carries its own picture instead */
+/* mobile keeps its own picture inside each row */
 .thumb {
   display: block;
   grid-column: 1 / -1;
@@ -139,7 +176,7 @@
   overflow: hidden;
   aspect-ratio: 16 / 10;
   background: var(--soft);
-  margin-top: 4px;
+  margin-top: 10px;
 }
 .thumb img {
   width: 100%;
@@ -164,33 +201,27 @@
   .head {
     grid-template-columns: 1.2fr 0.8fr;
   }
-  .row {
-    grid-template-columns: auto 1fr auto;
-    gap: 26px;
+}
+@media (min-width: 1000px) {
+  .split {
+    grid-template-columns: 1.16fr 0.84fr;
   }
-  .main {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  /* fixed columns so the prices line up down the page instead of drifting */
-  .meta {
-    grid-column: auto;
-    justify-content: flex-end;
-    gap: 14px;
-  }
-  .price {
-    min-width: 130px;
-    text-align: right;
-  }
-  .time {
-    min-width: 92px;
+  .panel {
+    display: block;
   }
   .thumb {
     display: none;
   }
-}
-@media (min-width: 1100px) {
-  .main {
-    grid-template-columns: 0.95fr 1fr;
-    align-items: center;
+  .row {
+    grid-template-columns: auto 1fr auto;
+    gap: 22px;
+  }
+  .meta {
+    grid-column: auto;
+    margin-top: 0;
+    justify-content: flex-end;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
   }
 }

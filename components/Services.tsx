@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { SERVICES, UI } from "@/lib/content";
 import { useLang } from "@/lib/i18n";
 import { Arrow, Clock } from "./Icons";
@@ -9,21 +9,7 @@ import css from "./Services.module.css";
 
 export default function Services() {
   const { t } = useLang();
-  const list = useRef<HTMLDivElement>(null);
-  const peek = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState<number | null>(null);
-
-  // The thumbnail trails the pointer instead of snapping — a small lag reads
-  // as weight. Position is written straight to the node, never to state.
-  const move = (e: React.MouseEvent) => {
-    const box = list.current;
-    const el = peek.current;
-    if (!box || !el) return;
-    const r = box.getBoundingClientRect();
-    const x = e.clientX - r.left - 125;
-    const y = e.clientY - r.top - 160;
-    el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-  };
+  const [active, setActive] = useState(0);
 
   return (
     <section className="sec" id="servicii">
@@ -44,42 +30,57 @@ export default function Services() {
           </p>
         </div>
 
-        <div
-          className={css.list}
-          ref={list}
-          onMouseMove={move}
-          onMouseLeave={() => setActive(null)}
-        >
-          {SERVICES.map((s, i) => (
-            <a
-              href="#contact"
-              className={`${css.row} rv`}
-              key={s.slug}
-              style={{ "--d": `${i * 55}ms` } as React.CSSProperties}
-              onMouseEnter={() => setActive(i)}
-            >
-              <span className={css.idx}>{String(i + 1).padStart(2, "0")}</span>
-              <div className={css.main}>
-                <h3 className={css.name}>{t(s.title)}</h3>
-                <p className={css.text}>{t(s.text)}</p>
-              </div>
-              <div className={css.meta}>
-                <span className={css.price}>{t(s.price)}</span>
-                <span className={css.time}>
-                  <Clock size={12} />
-                  {t(s.time)}
+        <div className={css.split}>
+          <div className={css.list}>
+            {SERVICES.map((s, i) => (
+              <a
+                href="#contact"
+                className={`${css.row} rv`}
+                key={s.slug}
+                data-on={active === i}
+                style={{ "--d": `${i * 50}ms` } as React.CSSProperties}
+                onMouseEnter={() => setActive(i)}
+                onFocus={() => setActive(i)}
+              >
+                <span className={css.idx}>{String(i + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3 className={css.name}>{t(s.title)}</h3>
+                  <p className={css.text}>{t(s.text)}</p>
+                </div>
+                <div className={css.meta}>
+                  <span className={css.price}>{t(s.price)}</span>
+                  <span className={css.time}>
+                    <Clock size={12} />
+                    {t(s.time)}
+                  </span>
+                </div>
+                <span className={css.thumb}>
+                  <Image src={s.img} alt="" width={640} height={400} sizes="100vw" />
                 </span>
-              </div>
-              <span className={css.thumb}>
-                <Image src={s.img} alt="" width={640} height={400} sizes="100vw" />
-              </span>
-            </a>
-          ))}
+              </a>
+            ))}
+          </div>
 
-          <div className={css.peek} ref={peek} data-on={active !== null} aria-hidden="true">
-            {active !== null && (
-              <Image src={SERVICES[active].img} alt="" width={500} height={640} sizes="250px" />
-            )}
+          {/* All eight are stacked and only the opacity changes, so switching
+              never flashes an empty box while a photo loads. */}
+          <div className={css.panel} aria-hidden="true">
+            {SERVICES.map((s, i) => (
+              <div className={css.frame} key={s.slug} data-on={active === i}>
+                <Image
+                  src={s.img}
+                  alt=""
+                  width={900}
+                  height={1125}
+                  sizes="(max-width: 1000px) 0px, 40vw"
+                  priority={i === 0}
+                />
+              </div>
+            ))}
+            <span className={css.panelShade} />
+            <div className={css.panelCard}>
+              <span className={css.panelName}>{t(SERVICES[active].title)}</span>
+              <span className={css.panelPrice}>{t(SERVICES[active].price)}</span>
+            </div>
           </div>
         </div>
 
