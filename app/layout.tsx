@@ -19,7 +19,7 @@ const instrument = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://alvea-dental.vercel.app"),
+  metadataBase: new URL("https://alvea-taupe.vercel.app"),
   title: {
     default: "ALVEA — Clinică stomatologică în Chișinău",
     template: "%s · ALVEA",
