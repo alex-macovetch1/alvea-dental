@@ -4,9 +4,11 @@
   left: 0;
   z-index: 70;
   height: 3px;
-  width: var(--p, 0%);
+  width: 100%;
+  transform: scaleX(var(--p, 0));
+  transform-origin: left;
   background: var(--accent);
-  transition: width 0.1s linear;
+  transition: transform 0.1s linear;
 }
 
 .byline {

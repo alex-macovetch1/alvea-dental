@@ -11,25 +11,37 @@ export default function Marquee() {
   const track = useRef<HTMLDivElement>(null);
 
   // Driven by rAF rather than a CSS keyframe so scrolling can push it along.
-  // It never pauses — a stopped ticker looks like a broken page.
+  // It only ever stops while the band is off screen, and resumes from the same
+  // offset — on screen it must keep moving, a frozen ticker reads as broken.
   useEffect(() => {
     const el = track.current;
-    if (!el) return;
+    const band = el?.parentElement;
+    if (!el || !band) return;
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let pos = 0;
     let boost = 0;
     let lastY = window.scrollY;
     let raf = 0;
+    let live = false;
+    // measured on mount and on resize instead of every frame — reading
+    // offsetWidth inside the loop forces a synchronous layout
+    let half = 0;
+
+    const first = el.firstElementChild as HTMLElement | null;
+    const ro = new ResizeObserver(() => {
+      half = first?.offsetWidth ?? 0;
+    });
+    if (first) ro.observe(first);
 
     const onScroll = () => {
-      boost += (window.scrollY - lastY) * 0.34;
-      lastY = window.scrollY;
+      const y = window.scrollY;
+      if (live) boost += (y - lastY) * 0.34;
+      lastY = y;
     };
     addEventListener("scroll", onScroll, { passive: true });
 
     const frame = () => {
-      const half = (el.firstElementChild as HTMLElement | null)?.offsetWidth ?? 0;
       boost *= 0.93;
       if (half) {
         pos -= 0.55 + boost * 0.05;
@@ -39,10 +51,24 @@ export default function Marquee() {
       }
       raf = requestAnimationFrame(frame);
     };
-    raf = requestAnimationFrame(frame);
+
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting === live) return;
+      live = e.isIntersecting;
+      if (live) {
+        lastY = window.scrollY;
+        raf = requestAnimationFrame(frame);
+      } else if (raf) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    });
+    io.observe(band);
 
     return () => {
-      cancelAnimationFrame(raf);
+      if (raf) cancelAnimationFrame(raf);
+      io.disconnect();
+      ro.disconnect();
       removeEventListener("scroll", onScroll);
     };
   }, []);

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { BLOG_UI, POSTS } from "@/lib/blog";
 import { SERVICES, TEAM, UI } from "@/lib/content";
 import { useLang } from "@/lib/i18n";
@@ -15,7 +15,7 @@ import css from "./PostView.module.css";
 
 export default function PostView({ slug }: { slug: string }) {
   const { lang, t } = useLang();
-  const [progress, setProgress] = useState(0);
+  const bar = useRef<HTMLDivElement>(null);
 
   const p = POSTS.find((x) => x.slug === slug)!;
   const author = TEAM.find((m) => m.slug === p.author);
@@ -26,19 +26,28 @@ export default function PostView({ slug }: { slug: string }) {
 
   // a thin bar across the top of the article, so a long read has a horizon
   useEffect(() => {
-    const onScroll = () => {
+    let raf = 0;
+    const frame = () => {
+      raf = 0;
       const h = document.documentElement;
       const max = h.scrollHeight - h.clientHeight;
-      setProgress(max > 0 ? Math.min(100, (h.scrollTop / max) * 100) : 0);
+      const ratio = max > 0 ? Math.min(1, h.scrollTop / max) : 0;
+      bar.current?.style.setProperty("--p", String(ratio));
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(frame);
     };
     addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => removeEventListener("scroll", onScroll);
+    frame();
+    return () => {
+      removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 
   return (
     <>
-      <div className={css.progress} style={{ "--p": `${progress}%` } as React.CSSProperties} aria-hidden="true" />
+      <div className={css.progress} ref={bar} style={{ "--p": 0 } as React.CSSProperties} aria-hidden="true" />
 
       <PageHead
         crumbs={[{ href: "/blog", label: { ro: "Blog", ru: "Блог" } }, { label: p.tag }]}

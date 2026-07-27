@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import ReactDOM from "react-dom";
 import { useEffect, useRef } from "react";
 import { HERO, UI } from "@/lib/content";
 import { useLang } from "@/lib/i18n";
@@ -31,8 +32,13 @@ const FACES = ["/img/p-1.jpg", "/img/p-3.jpg", "/img/p-4.jpg"];
 
 export default function Hero() {
   const { lang, t } = useLang();
+  const hero = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const media = useRef<HTMLVideoElement>(null);
+
+  // The poster is the LCP element on desktop; asking for it here beats waiting
+  // for the <video> tag to be parsed.
+  ReactDOM.preload("/img/clinic-poster.jpg", { as: "image", fetchPriority: "high" });
 
   // Gentle parallax: the footage drifts slower than the page it sits in.
   useEffect(() => {
@@ -45,6 +51,7 @@ export default function Hero() {
     const frame = () => {
       raf = 0;
       const r = el.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
       const p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
       vid.style.transform = `scale(1.12) translate3d(0, ${(-p * 26).toFixed(2)}px, 0)`;
     };
@@ -59,6 +66,18 @@ export default function Hero() {
     };
   }, []);
 
+  // Three loops run forever here; CSS pauses them while the section is off
+  // screen. `paused` freezes the current frame, so nothing jumps on return.
+  useEffect(() => {
+    const el = hero.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => {
+      el.setAttribute("data-live", e.isIntersecting ? "true" : "false");
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   const a = t(HERO.titleA);
   const em = t(HERO.titleEm);
   const b = t(HERO.titleB);
@@ -66,7 +85,7 @@ export default function Hero() {
   const nEm = em.split(/\s+/).length;
 
   return (
-    <section className={css.hero} id="top">
+    <section className={css.hero} id="top" ref={hero} data-live="true">
       <div className="wrap">
         <div className={css.top}>
           <div>
@@ -138,7 +157,7 @@ export default function Hero() {
             <span className={css.faces}>
               {FACES.map((f) => (
                 <span key={f}>
-                  <Image src={f} alt="" width={68} height={68} />
+                  <Image src={f} alt="" width={68} height={68} sizes="34px" />
                 </span>
               ))}
             </span>

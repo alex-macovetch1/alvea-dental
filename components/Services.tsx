@@ -2,15 +2,70 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { SERVICES } from "@/lib/content";
+import type { T } from "@/lib/content";
 import { useLang } from "@/lib/i18n";
 import { Arrow, Clock } from "./Icons";
 import css from "./Services.module.css";
 
+type Service = (typeof SERVICES)[number];
+
+/** Only `on` changes while the pointer travels the list, so the eight rows and
+ *  the eight stacked photos never rebuild their srcSet. */
+const Row = memo(function Row({
+  s,
+  i,
+  on,
+  t,
+  onActivate,
+}: {
+  s: Service;
+  i: number;
+  on: boolean;
+  t: (v: T) => string;
+  onActivate: (i: number) => void;
+}) {
+  return (
+    <Link
+      href={`/servicii/${s.slug}`}
+      className={`${css.row} rv`}
+      data-on={on}
+      style={{ "--d": `${i * 50}ms` } as React.CSSProperties}
+      onMouseEnter={() => onActivate(i)}
+      onFocus={() => onActivate(i)}
+    >
+      <span className={css.idx}>{String(i + 1).padStart(2, "0")}</span>
+      <div>
+        <h3 className={css.name}>{t(s.title)}</h3>
+        <p className={css.text}>{t(s.text)}</p>
+      </div>
+      <div className={css.meta}>
+        <span className={css.price}>{t(s.price)}</span>
+        <span className={css.time}>
+          <Clock size={12} />
+          {t(s.time)}
+        </span>
+      </div>
+      <span className={css.thumb}>
+        <Image src={s.img} alt="" width={640} height={400} sizes="100vw" />
+      </span>
+    </Link>
+  );
+});
+
+const Frame = memo(function Frame({ s, on }: { s: Service; on: boolean }) {
+  return (
+    <div className={css.frame} data-on={on}>
+      <Image src={s.img} alt="" width={900} height={1125} sizes="(max-width: 1000px) 0px, 40vw" />
+    </div>
+  );
+});
+
 export default function Services() {
   const { t } = useLang();
   const [active, setActive] = useState(0);
+  const onActivate = useCallback((i: number) => setActive(i), []);
 
   return (
     <section className="sec" id="servicii">
@@ -34,31 +89,7 @@ export default function Services() {
         <div className={css.split}>
           <div className={css.list}>
             {SERVICES.map((s, i) => (
-              <Link
-                href={`/servicii/${s.slug}`}
-                className={`${css.row} rv`}
-                key={s.slug}
-                data-on={active === i}
-                style={{ "--d": `${i * 50}ms` } as React.CSSProperties}
-                onMouseEnter={() => setActive(i)}
-                onFocus={() => setActive(i)}
-              >
-                <span className={css.idx}>{String(i + 1).padStart(2, "0")}</span>
-                <div>
-                  <h3 className={css.name}>{t(s.title)}</h3>
-                  <p className={css.text}>{t(s.text)}</p>
-                </div>
-                <div className={css.meta}>
-                  <span className={css.price}>{t(s.price)}</span>
-                  <span className={css.time}>
-                    <Clock size={12} />
-                    {t(s.time)}
-                  </span>
-                </div>
-                <span className={css.thumb}>
-                  <Image src={s.img} alt="" width={640} height={400} sizes="100vw" />
-                </span>
-              </Link>
+              <Row key={s.slug} s={s} i={i} on={active === i} t={t} onActivate={onActivate} />
             ))}
           </div>
 
@@ -66,16 +97,7 @@ export default function Services() {
               never flashes an empty box while a photo loads. */}
           <div className={css.panel} aria-hidden="true">
             {SERVICES.map((s, i) => (
-              <div className={css.frame} key={s.slug} data-on={active === i}>
-                <Image
-                  src={s.img}
-                  alt=""
-                  width={900}
-                  height={1125}
-                  sizes="(max-width: 1000px) 0px, 40vw"
-                  priority={i === 0}
-                />
-              </div>
+              <Frame key={s.slug} s={s} on={active === i} />
             ))}
             <span className={css.panelShade} />
             <div className={css.panelCard}>

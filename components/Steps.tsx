@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { STEPS, UI } from "@/lib/content";
 import { useLang } from "@/lib/i18n";
 import { Arrow, Phone } from "./Icons";
@@ -11,7 +11,8 @@ import css from "./Steps.module.css";
 export default function Steps() {
   const { t } = useLang();
   const rail = useRef<HTMLDivElement>(null);
-  const [p, setP] = useState(0);
+  const fill = useRef<HTMLSpanElement>(null);
+  const clip = useRef<HTMLVideoElement>(null);
 
   // The rail fills as the section crosses the viewport, so the five steps read
   // as one continuous path rather than five disconnected boxes.
@@ -24,7 +25,8 @@ export default function Steps() {
       const r = el.getBoundingClientRect();
       const total = r.height + innerHeight * 0.5;
       const done = innerHeight * 0.85 - r.top;
-      setP(Math.max(0, Math.min(100, (done / total) * 100)));
+      const pct = Math.max(0, Math.min(100, (done / total) * 100));
+      fill.current?.style.setProperty("--p", pct + "%");
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(frame);
@@ -35,6 +37,24 @@ export default function Steps() {
       removeEventListener("scroll", onScroll);
       if (raf) cancelAnimationFrame(raf);
     };
+  }, []);
+
+  // 540 KB of footage sitting ~7000px below the fold has no business loading
+  // with the page — the poster stands in until the section is close.
+  useEffect(() => {
+    const v = clip.current;
+    if (!v) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        io.disconnect();
+        v.src = "/video/care.mp4";
+        v.play().catch(() => {});
+      },
+      { rootMargin: "300px" }
+    );
+    io.observe(v);
+    return () => io.disconnect();
   }, []);
 
   return (
@@ -57,7 +77,7 @@ export default function Steps() {
         </div>
 
         <div className={css.rail} ref={rail}>
-          <span className={css.fill} style={{ "--p": `${p}%` } as React.CSSProperties} />
+          <span className={css.fill} ref={fill} style={{ "--p": "0%" } as React.CSSProperties} />
         </div>
 
         <div className={css.grid}>
@@ -77,7 +97,7 @@ export default function Steps() {
 
         <div className={css.after}>
           <div className={`${css.clip} rvimg`}>
-            <video src="/video/care.mp4" poster="/img/care-poster.jpg" autoPlay muted loop playsInline preload="none" />
+            <video ref={clip} poster="/img/care-poster.jpg" muted loop playsInline preload="none" />
           </div>
           <div className={`${css.afterText} rv`}>
             <h3>

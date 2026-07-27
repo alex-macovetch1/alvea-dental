@@ -122,8 +122,7 @@
   aspect-ratio: 21 / 9;
   min-height: 300px;
 }
-.stage video,
-.stage img {
+.stage video {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -239,6 +238,15 @@
     transform: scaleY(0);
     transform-origin: bottom;
   }
+}
+
+/* Matches only once the observer has written data-live, so the loops keep
+   running before JS boots. "paused" freezes the current frame, so leaving and
+   re-entering the viewport resumes instead of restarting. */
+.hero[data-live="false"]::before,
+.hero[data-live="false"] .chip,
+.hero[data-live="false"] .scroll i {
+  animation-play-state: paused;
 }
 
 @media (min-width: 1000px) {

@@ -3,11 +3,91 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { CLINIC, NAV, SERVICES, TEAM, UI } from "@/lib/content";
+import type { T } from "@/lib/content";
 import { useLang } from "@/lib/i18n";
 import { Arrow, Clock, Phone, Pin, Tooth } from "./Icons";
 import css from "./Nav.module.css";
+
+/** Kept apart from the bar so scroll state never rebuilds the thumbnails. */
+const MegaPanels = memo(function MegaPanels({
+  t,
+  mega,
+  onEnter,
+  onLeave,
+}: {
+  t: (v: T) => string;
+  mega: string | null;
+  onEnter: (id: string | null) => void;
+  onLeave: () => void;
+}) {
+  return (
+    <>
+      <div
+        className={css.panel}
+        data-open={mega === "services"}
+        onMouseEnter={() => onEnter("services")}
+        onMouseLeave={onLeave}
+      >
+        <div className={`wrap ${css.panelIn}`}>
+          <div className={css.panelGrid}>
+            {SERVICES.map((s) => (
+              <Link key={s.slug} href={`/servicii/${s.slug}`} className={css.pItem}>
+                <span className={css.pThumb}>
+                  <Image src={s.img} alt="" width={160} height={160} sizes="80px" />
+                </span>
+                <span>
+                  <span className={css.pName}>{t(s.title)}</span>
+                  <span className={css.pMeta}>
+                    {t(s.price)} · {t(s.time)}
+                  </span>
+                </span>
+              </Link>
+            ))}
+          </div>
+          <div className={css.panelFoot}>
+            <Link href="/servicii" className={css.panelAll}>
+              {t({ ro: "Toate serviciile", ru: "Все услуги" })} <Arrow size={12} />
+            </Link>
+            <Link href="/preturi" className={css.panelAll}>
+              {t({ ro: "Lista de prețuri", ru: "Прайс-лист" })} <Arrow size={12} />
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className={css.panel}
+        data-open={mega === "team"}
+        onMouseEnter={() => onEnter("team")}
+        onMouseLeave={onLeave}
+      >
+        <div className={`wrap ${css.panelIn}`}>
+          <div className={css.teamGrid}>
+            {TEAM.map((m) => (
+              <Link key={m.slug} href={`/echipa/${m.slug}`} className={css.tItem}>
+                <span className={css.tImg}>
+                  <Image src={m.img} alt="" width={220} height={280} sizes="120px" />
+                </span>
+                <span className={css.pName}>{m.name}</span>
+                <span className={css.pMeta}>{t(m.role)}</span>
+              </Link>
+            ))}
+          </div>
+          <div className={css.panelFoot}>
+            <Link href="/echipa" className={css.panelAll}>
+              {t({ ro: "Toată echipa", ru: "Вся команда" })} <Arrow size={12} />
+            </Link>
+            <Link href="/despre" className={css.panelAll}>
+              {t({ ro: "Despre clinică", ru: "О клинике" })} <Arrow size={12} />
+            </Link>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+});
 
 export default function Nav() {
   const { lang, setLang, t } = useLang();
@@ -19,6 +99,11 @@ export default function Nav() {
   /** a small delay on leave keeps the panel from closing while the pointer
    *  crosses the gap between the link and the panel itself */
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const openRef = useRef(false);
+
+  useEffect(() => {
+    openRef.current = open;
+  }, [open]);
 
   // Hide on the way down, come back on the way up — the bar stops competing
   // with the page while someone is reading.
@@ -27,14 +112,14 @@ export default function Nav() {
     const onScroll = () => {
       const y = window.scrollY;
       setStuck(y > 30);
-      setHidden(y > 420 && y > last && !open);
+      setHidden(y > 420 && y > last && !openRef.current);
       if (y > last + 8) setMega(null);
       last = y;
     };
     addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => removeEventListener("scroll", onScroll);
-  }, [open]);
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -59,20 +144,25 @@ export default function Nav() {
     return () => removeEventListener("keydown", onKey);
   }, []);
 
-  const enter = (id: string | null) => {
+  const enter = useCallback((id: string | null) => {
     if (leaveTimer.current) clearTimeout(leaveTimer.current);
     setMega(id);
-  };
-  const leave = () => {
+  }, []);
+  const leave = useCallback(() => {
     if (leaveTimer.current) clearTimeout(leaveTimer.current);
     leaveTimer.current = setTimeout(() => setMega(null), 170);
-  };
+  }, []);
 
   const isOn = (href: string) => path === href || path.startsWith(href + "/");
 
   return (
     <>
-      <header className={css.shell} data-stuck={stuck} data-hidden={hidden} data-mega={!!mega}>
+      <header
+        className={css.shell}
+        data-stuck={stuck}
+        data-hidden={hidden}
+        data-mega={!!mega}
+      >
         <div className={css.strip}>
           <div className={`wrap ${css.stripIn}`}>
             <div className={css.stripL}>
@@ -162,67 +252,7 @@ export default function Nav() {
         </div>
 
         {/* ---- the two drop panels, desktop only ---- */}
-        <div
-          className={css.panel}
-          data-open={mega === "services"}
-          onMouseEnter={() => enter("services")}
-          onMouseLeave={leave}
-        >
-          <div className={`wrap ${css.panelIn}`}>
-            <div className={css.panelGrid}>
-              {SERVICES.map((s) => (
-                <Link key={s.slug} href={`/servicii/${s.slug}`} className={css.pItem}>
-                  <span className={css.pThumb}>
-                    <Image src={s.img} alt="" width={160} height={160} sizes="80px" />
-                  </span>
-                  <span>
-                    <span className={css.pName}>{t(s.title)}</span>
-                    <span className={css.pMeta}>
-                      {t(s.price)} · {t(s.time)}
-                    </span>
-                  </span>
-                </Link>
-              ))}
-            </div>
-            <div className={css.panelFoot}>
-              <Link href="/servicii" className={css.panelAll}>
-                {t({ ro: "Toate serviciile", ru: "Все услуги" })} <Arrow size={12} />
-              </Link>
-              <Link href="/preturi" className={css.panelAll}>
-                {t({ ro: "Lista de prețuri", ru: "Прайс-лист" })} <Arrow size={12} />
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        <div
-          className={css.panel}
-          data-open={mega === "team"}
-          onMouseEnter={() => enter("team")}
-          onMouseLeave={leave}
-        >
-          <div className={`wrap ${css.panelIn}`}>
-            <div className={css.teamGrid}>
-              {TEAM.map((m) => (
-                <Link key={m.slug} href={`/echipa/${m.slug}`} className={css.tItem}>
-                  <span className={css.tImg}>
-                    <Image src={m.img} alt="" width={220} height={280} sizes="120px" />
-                  </span>
-                  <span className={css.pName}>{m.name}</span>
-                  <span className={css.pMeta}>{t(m.role)}</span>
-                </Link>
-              ))}
-            </div>
-            <div className={css.panelFoot}>
-              <Link href="/echipa" className={css.panelAll}>
-                {t({ ro: "Toată echipa", ru: "Вся команда" })} <Arrow size={12} />
-              </Link>
-              <Link href="/despre" className={css.panelAll}>
-                {t({ ro: "Despre clinică", ru: "О клинике" })} <Arrow size={12} />
-              </Link>
-            </div>
-          </div>
-        </div>
+        <MegaPanels t={t} mega={mega} onEnter={enter} onLeave={leave} />
       </header>
 
       <div className={css.sheet} data-open={open}>

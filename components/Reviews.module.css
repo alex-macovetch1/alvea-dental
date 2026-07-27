@@ -163,7 +163,9 @@
 }
 .bar i {
   position: absolute;
-  inset: 0 100% 0 0;
+  inset: 0;
+  transform: scaleX(0);
+  transform-origin: left;
   background: var(--accent);
 }
 .bar[data-on="true"] i {
@@ -171,7 +173,7 @@
 }
 @keyframes fillbar {
   to {
-    inset: 0 0 0 0;
+    transform: scaleX(1);
   }
 }
 .count {

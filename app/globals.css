@@ -221,9 +221,11 @@ html[data-lang="ru"] .serif {
   transition: transform 1.4s var(--ease), filter 1.4s var(--ease);
   filter: blur(5px);
 }
+/* blur(0px) rather than none: dropping the filter list tears down the
+   composited layer and repaints the whole subtree right as the image lands. */
 .rvimg.in > * {
   transform: none;
-  filter: none;
+  filter: blur(0px);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -236,12 +238,13 @@ html[data-lang="ru"] .serif {
   html {
     scroll-behavior: auto;
   }
-}
-
-/* ---------- shared surfaces ---------- */
-.hair {
-  height: 1px;
-  background: var(--line);
-  border: 0;
-  margin: 0;
+  /* Near-zero instead of "none": animations with fill both/forwards still have
+     to land on their end state, or masked words and panels stay hidden. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

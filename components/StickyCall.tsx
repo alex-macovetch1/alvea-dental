@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import { CLINIC, UI } from "@/lib/content";
 import { useLang } from "@/lib/i18n";
 import { Phone, Wa } from "./Icons";
@@ -14,18 +15,31 @@ import css from "./StickyCall.module.css";
  */
 export default function StickyCall() {
   const { t } = useLang();
+  const path = usePathname();
   const [on, setOn] = useState(false);
+  const form = useRef<HTMLElement | null>(null);
 
+  // Resolved per route instead of on every scroll event — most pages have no
+  // booking form at all, and then there is nothing to measure.
   useEffect(() => {
-    const onScroll = () => {
-      const form = document.getElementById("contact");
-      const nearForm = form ? form.getBoundingClientRect().top < innerHeight * 0.8 : false;
+    form.current = document.getElementById("contact");
+    let raf = 0;
+    const frame = () => {
+      raf = 0;
+      const el = form.current;
+      const nearForm = el ? el.getBoundingClientRect().top < innerHeight * 0.8 : false;
       setOn(window.scrollY > 700 && !nearForm);
     };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(frame);
+    };
     addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => removeEventListener("scroll", onScroll);
-  }, []);
+    frame();
+    return () => {
+      removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [path]);
 
   return (
     <div className={css.bar} data-on={on}>
