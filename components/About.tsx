@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ABOUT, PROMISES, STATS } from "@/lib/content";
 import { useLang } from "@/lib/i18n";
 import Counter from "./Counter";
+import { Fake } from "./DemoBar";
 import { Tooth } from "./Icons";
 import css from "./About.module.css";
 
@@ -70,6 +71,7 @@ export default function About() {
                 <Counter to={s.value} decimals={s.decimals} suffix={s.suffix} />
               </span>
               <span className={css.cap}>{t(s.label)}</span>
+              <Fake block />
             </div>
           ))}
         </div>

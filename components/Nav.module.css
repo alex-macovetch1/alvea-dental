@@ -1,11 +1,12 @@
 .shell {
   position: fixed;
-  inset: 0 0 auto;
+  inset: var(--demo-h, 0px) 0 auto;
   z-index: 60;
   transition: transform 0.5s var(--ease);
 }
 .shell[data-hidden="true"] {
-  transform: translateY(-100%);
+  /* the extra --demo-h clears the fixed demo strip it now sits below */
+  transform: translateY(calc(-100% - var(--demo-h, 0px)));
 }
 
 /* A thin strip of the things people phone to ask about anyway. */

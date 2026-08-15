@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope, Instrument_Serif } from "next/font/google";
+import DemoBar from "@/components/DemoBar";
 import { LangProvider } from "@/lib/i18n";
 import "./globals.css";
 
@@ -53,7 +54,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ro" data-lang="ro" className={`${manrope.variable} ${instrument.variable}`}>
       <body>
-        <LangProvider>{children}</LangProvider>
+        <LangProvider>
+          <DemoBar />
+          {children}
+        </LangProvider>
       </body>
     </html>
   );

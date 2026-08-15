@@ -1,0 +1,88 @@
+/* Fixed strip above everything, including the nav. Height is a token so the
+   nav and the body padding can both offset by exactly the same amount. */
+.bar {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--demo-h);
+  padding: 6px var(--gut);
+  background: #12191d;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 196, 92, 0.09) 0 8px,
+    transparent 8px 16px
+  );
+  border-bottom: 1px solid rgba(255, 196, 92, 0.42);
+  box-shadow: 0 6px 20px -18px rgba(0, 0, 0, 0.9);
+}
+
+.text {
+  margin: 0;
+  text-align: center;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  letter-spacing: 0.005em;
+  color: rgba(255, 240, 214, 0.86);
+}
+
+.text b {
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #ffcb6b;
+}
+
+.dash {
+  margin: 0 0.42em;
+  opacity: 0.5;
+}
+
+@media (max-width: 760px) {
+  .text {
+    font-size: 0.66rem;
+    line-height: 1.3;
+  }
+  .dash {
+    margin: 0 0.3em;
+  }
+}
+
+/* ---------- the little tag next to an invented number ---------- */
+/* doubled class on purpose: it drops into sections whose own `.x span {}`
+   rules would otherwise win on specificity and repaint the tag */
+.fake.fake {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 7px;
+  border: 1px solid rgba(120, 84, 12, 0.28);
+  border-radius: 999px;
+  /* solid, so it reads the same on the paper sections and the dark ones */
+  background: #f7d38a;
+  color: #4a3305;
+  font-family: var(--f-sans);
+  font-size: 0.58rem;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: 0.09em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.fake.fake::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: #8a6210;
+}
+
+.fake.fake[data-block] {
+  display: flex;
+  width: fit-content;
+  margin-top: 10px;
+}

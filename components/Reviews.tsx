@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { REVIEWS } from "@/lib/content";
 import { useLang } from "@/lib/i18n";
+import { Fake } from "./DemoBar";
 import { Star } from "./Icons";
 import css from "./Reviews.module.css";
 
@@ -37,6 +38,7 @@ export default function Reviews() {
               {t({ ro: "487 de recenzii.", ru: "487 отзывов." })}{" "}
               <span className="serif">{t({ ro: "Niciuna cumpărată.", ru: "Ни одного купленного." })}</span>
             </h2>
+            <Fake block />
           </div>
           <div className={`${css.google} rv`} style={{ "--d": "140ms" } as React.CSSProperties}>
             <div>
@@ -49,6 +51,7 @@ export default function Reviews() {
               <span className={css.gcap}>
                 {t({ ro: "Google Maps · Chișinău", ru: "Google Maps · Кишинёв" })}
               </span>
+              <Fake block />
             </div>
           </div>
         </div>
@@ -63,6 +66,7 @@ export default function Reviews() {
                 <span className={css.dot} />
                 <span>{t(r.meta)}</span>
               </div>
+              <Fake block />
             </div>
           </div>
 

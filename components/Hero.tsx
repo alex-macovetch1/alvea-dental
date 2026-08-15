@@ -6,6 +6,7 @@ import ReactDOM from "react-dom";
 import { useEffect, useRef } from "react";
 import { HERO, UI } from "@/lib/content";
 import { useLang } from "@/lib/i18n";
+import { Fake } from "./DemoBar";
 import { Arrow, Check, Star, Tooth } from "./Icons";
 import css from "./Hero.module.css";
 
@@ -150,6 +151,7 @@ export default function Hero() {
               </span>
               <span className={css.chipBig}>4.9</span>
               <span className={css.chipSmall}>{t(HERO.cardRating)}</span>
+              <Fake block />
             </div>
           </div>
 
@@ -164,6 +166,7 @@ export default function Hero() {
             <div>
               <span className={css.chipBig}>12 400+</span>
               <span className={css.chipSmall}>{t(HERO.cardPatients)}</span>
+              <Fake block />
             </div>
           </div>
 

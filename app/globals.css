@@ -27,6 +27,22 @@
   --f-serif: var(--font-instrument), Georgia, serif;
 
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Height of the fixed "this is a demo" strip. The nav offsets by it and the
+     body pads by it, so nothing ends up hidden underneath. */
+  --demo-h: 34px;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --demo-h: 46px;
+  }
+}
+
+@media (max-width: 400px) {
+  :root {
+    --demo-h: 50px;
+  }
 }
 
 * {
@@ -40,6 +56,7 @@ html {
 
 body {
   margin: 0;
+  padding-top: var(--demo-h);
   background: var(--paper);
   color: var(--ink);
   font-family: var(--f-sans);

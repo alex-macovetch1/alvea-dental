@@ -7,6 +7,7 @@ import { useLang } from "@/lib/i18n";
 import { ABOUT_PAGE } from "@/lib/site-content";
 import Counter from "../Counter";
 import CtaBand from "../CtaBand";
+import { Fake } from "../DemoBar";
 import { ArrowRight, Mail } from "../Icons";
 import PageHead from "../PageHead";
 import css from "./AboutView.module.css";
@@ -36,6 +37,7 @@ export default function AboutView() {
                   <Counter to={s.value} decimals={s.decimals} suffix={s.suffix} />
                 </b>
                 <i>{t(s.label)}</i>
+                <Fake block />
               </div>
             ))}
           </div>
@@ -58,6 +60,7 @@ export default function AboutView() {
               <li className={`${css.tlItem} rv`} key={i} style={{ "--d": `${i * 60}ms` } as React.CSSProperties}>
                 <b>{e.year}</b>
                 <span>{t(e.text)}</span>
+                {i === ABOUT_PAGE.timeline.length - 1 && <Fake />}
               </li>
             ))}
           </ol>
