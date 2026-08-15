@@ -35,13 +35,14 @@
 
 @media (max-width: 760px) {
   :root {
-    --demo-h: 46px;
+    --demo-h: 52px;
   }
 }
 
 @media (max-width: 400px) {
   :root {
-    --demo-h: 50px;
+    /* the Russian sentence is longer and wraps to three lines here */
+    --demo-h: 58px;
   }
 }
 
