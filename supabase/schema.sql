@@ -18,8 +18,10 @@ create table if not exists alvea_appointments (
   status       text        not null default 'new'   -- new | done | cancelled
 );
 
--- Two people cannot land on the same doctor, day and hour. The database
--- enforces it, so a race between two tabs cannot double-book.
+-- Blocks two bookings that START at the same time for the same doctor and day.
+-- Known limitation: it does NOT block overlapping bookings of different lengths
+-- (e.g. 09:00-10:00 and 09:30) that arrive at the same moment. Planned fix:
+-- an EXCLUDE USING gist constraint on the time range.
 create unique index if not exists alvea_slot_unique
   on alvea_appointments (doctor, day, start_min)
   where status <> 'cancelled';

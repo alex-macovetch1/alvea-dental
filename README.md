@@ -1,94 +1,59 @@
-# ALVEA — clinică stomatologică
+# ALVEA — dental clinic website with online booking
 
-Site complet pentru o clinică dentară din Chișinău, în română și rusă, cu programare
-online care chiar funcționează.
+Website for a dental clinic in Chișinău, in Romanian and Russian, with online booking based on real free
+time slots. **The clinic is fictional** — names, doctors, prices and reviews are demo data, marked as such on the site.
 
-**Clinica este fictivă.** Proiectul e o lucrare de portofoliu: numele, medicii, adresa,
-telefoanele și recenziile sunt inventate. Structura, textele și funcționalitatea sunt însă
-gândite pentru o clinică reală din Moldova — nu e un șablon umplut cu „lorem ipsum".
+**Live demo:** https://alvea-taupe.vercel.app
 
-## Pagini
+Built with AI-assisted development (Claude Code).
 
-| Rută | Ce e acolo |
-| --- | --- |
-| `/` | Prima pagină: hero cu video, servicii, echipă, recenzii, prețuri, blog, formular |
-| `/servicii` + `/servicii/[slug]` × 8 | Pagină proprie per serviciu: cum decurge, ce e inclus, prețuri, întrebări, medicii care îl fac |
-| `/echipa` + `/echipa/[slug]` × 5 | Biografie, studii pe ani, specializări, zilele în care lucrează |
-| `/preturi` | Lista completă, cu căutare live |
-| `/rezultate` | Șase cazuri cu comparator înainte/după, durată și cost real |
-| `/blog` + `/blog/[slug]` × 5 | Articole scrise „de medici", cu cuprins și bară de progres |
-| `/despre` | Povestea clinicii, cronologie, valori, dotare |
-| `/contact` | Cum ajungi, hartă, formular |
-| `/programare` | Calendarul de programare, în cinci pași |
-| `/admin` | Agenda clinicii — protejată cu parolă, `noindex` |
+## Problem
 
-## Programarea online
+Small clinics in Moldova take most appointments by phone. Patients want to see prices and pick a time
+themselves; the clinic wants the booked hours to disappear from the calendar without extra work.
 
-Partea care nu e decor:
+## What I built
 
-1. **Serviciu → medic → zi → oră → date de contact.** Fiecare pas se poate schimba
-   înapoi din bara laterală.
-2. **Orele libere sunt reale.** `/api/slots` construiește grila din programul clinicii
-   (L–V 8–20, S 9–16, pauză 13–14), din zilele în care lucrează fiecare medic și din
-   durata serviciului ales, apoi scoate ce e deja ocupat în baza de date.
-3. **Calendarul arată câte ore mai sunt libere** în fiecare zi (`/api/days`), ca să nu
-   deschizi o zi goală.
-4. **Nu se poate suprapune.** Ora se verifică din nou pe server la confirmare, iar în
-   Postgres există un index unic parțial pe `(medic, zi, oră)` — două tab-uri deschise în
-   același timp nu pot lua aceeași oră.
-5. **„Oricare medic disponibil"** caută prima oră liberă la oricare medic care face
-   serviciul respectiv.
-6. Formularul are validare, limitare la 5 cereri pe minut pe IP, iar la final primești un
-   cod de programare.
+- Booking in five steps: service → doctor → day → time → contact details
+- Free slots are computed on the server from clinic hours, each doctor's working days and the service
+  duration, minus the appointments already in the database
+- The calendar shows how many free slots each day has; "any available doctor" finds the first free slot
+- Server-side re-check of the slot on confirmation, form validation, rate limit of 5 requests per minute per IP
+- Admin agenda (`/admin`, password-protected, `noindex`): mark visits as done or cancelled
+- Content pages: services with prices, team, before/after cases, blog, contact
 
-Programările intră în agenda de la `/admin`, unde se pot marca „a venit" sau anula.
+## Stack
 
-## Tehnologii
+Next.js 16 (App Router), React 19, TypeScript, CSS Modules, Supabase (PostgreSQL) for appointments.
 
-Next.js 16 (App Router, Turbopack) · React 19 · TypeScript · CSS Modules ·
-Tailwind (reset + utilitare) · Supabase (Postgres) pentru programări.
-Fonturi Manrope + Instrument Serif prin `next/font`.
+## The hard part
 
-## Detalii de implementare
+Keeping the calendar rules identical in the browser and on the server. The slot logic is written as pure
+functions (`lib/slots.ts`) used by both, so the client never shows a slot the server would reject.
 
-- **Bilingv RO / RU** — tot textul stă în `lib/content.ts`, `lib/services-content.ts`,
-  `lib/team-content.ts`, `lib/blog.ts` și `lib/site-content.ts`, ca perechi `{ro, ru}`.
-  Alegerea se ține minte în `localStorage` și se pune pe `<html data-lang>`.
-  Instrument Serif nu are chirilice, așa că în rusă accentele italice devin un sans subțire.
-- **Regulile calendarului sunt funcții pure** (`lib/slots.ts`), folosite identic de browser
-  și de server — nu pot ajunge să nu fie de acord.
-- **Comparator înainte / după** dintr-o singură fotografie: stratul „înainte" e aceeași
-  imagine trecută printr-un filtru, decupat cu `clip-path`.
-- **Animații** — apariții la derulare cu un singur `IntersectionObserver`, bandă de servicii
-  pe `requestAnimationFrame`, contoare, bară de progres la articole. Toate respectă
-  `prefers-reduced-motion`.
+## Known limitation
 
-## Rulare
+The database has a unique index on (doctor, day, start time). It prevents two bookings that **start** at
+the same time, but not two bookings of different lengths that **overlap** (for example 09:00–10:00 and
+09:30) if they arrive at the same moment. Also, if the database query for taken slots fails, it currently
+returns an empty list instead of an error. The planned fix: a PostgreSQL `EXCLUDE USING gist`
+constraint on the time range, and failing the booking when the check cannot run.
+
+## Run locally
 
 ```bash
 npm install
-cp .env.example .env.local   # completează cheile
-npm run dev                  # http://localhost:3000
-npm run build
+cp .env.example .env.local   # SUPABASE_URL, SUPABASE_SERVICE_KEY, ADMIN_KEY
+npm run dev
 ```
 
-Tabelul se creează din `supabase/schema.sql`.
+Create the table with `supabase/schema.sql`. Without the keys the site still runs and the booking page
+says that online booking is unavailable.
 
-### Variabile de mediu
+## What I would improve
 
-```
-SUPABASE_URL=...
-SUPABASE_SERVICE_KEY=...
-ADMIN_KEY=...            # parola pentru /admin
-```
+- The overlap fix above
+- Automated tests for the slot rules and the booking API
+- SMS or email confirmation for patients
 
-Fără ele site-ul rulează în continuare; doar programarea online spune sincer că nu e
-disponibilă.
-
-## Imagini
-
-Fotografiile și clipurile video sunt din Unsplash și Pexels, cu licență liberă.
-
----
-
-Design și cod: [Alexandru Macovetchi](https://alex-macovetch1.github.io/portofoliu/)
+Photos and videos: Unsplash and Pexels (free license).
